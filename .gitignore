@@ -19,9 +19,7 @@ out/
 
 # Gradle files
 .gradle/
-build/
-network/api/build/
-network/core/build/
+**/build/
 
 
 .idea/
