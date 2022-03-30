@@ -15,4 +15,3 @@ dependencyResolutionManagement {
 rootProject.name = "DemoCurrencyApplication"
 include ':app'
 include ':network:api', ":network:core"
-include ':core:domain'
