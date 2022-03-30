@@ -20,6 +20,10 @@ out/
 # Gradle files
 .gradle/
 build/
+network/api/build/
+network/core/build/
+
+
 .idea/
 
 # Local configuration file (sdk path, etc)
