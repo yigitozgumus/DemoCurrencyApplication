@@ -12,8 +12,8 @@ import com.yigitozgumus.home_screen.domain.model.CurrencyModel
 import com.yigitozgumus.home_screen.domain.repositories.HomeScreenRepository
 import com.yigitozgumus.home_screen.presentation.coin.CryptoCurrencyListUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -21,13 +21,15 @@ class HomeViewModel @Inject constructor(
     private val homeScreenRepository: HomeScreenRepository
 ) : BaseViewModel() {
 
-    private var currentCurrency: String? = null
+    private var currentCurrency: CurrencyModel? = null
 
     private val _currencyList = MutableSharedFlow<List<CurrencyModel>>()
     val currencies = _currencyList.asSharedFlow()
-    
+
     val selectedCurrency: (CurrencyModel) -> Unit
     val currentCoinState: StateFlow<List<CryptoCurrencyListUiModel>>
+
+    private var updateUiJob: Job? = null
 
     init {
         viewModelScope.launch {
@@ -37,19 +39,30 @@ class HomeViewModel @Inject constructor(
 
         val nextSelectedCurrency = MutableSharedFlow<String>()
         selectedCurrency = { selectedCurrency ->
-            currentCurrency = selectedCurrency.id
+            currentCurrency = selectedCurrency
             viewModelScope.launch {
+                updateUiJob?.cancel()
                 nextSelectedCurrency.emit(selectedCurrency.id)
+                updateUiJob = updateScreenContent()
             }
         }
         currentCoinState = nextSelectedCurrency.map {
             val coinList = homeScreenRepository.getCryptoCurrencyList(it)
-            coinList.map { CryptoCurrencyListUiModel(it, currentCurrency.toString()) }
+            coinList.map { CryptoCurrencyListUiModel(it, currentCurrency?.id.toString()) }
         }.stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000),
             initialValue = listOf()
         )
+    }
+
+    private fun updateScreenContent(): Job {
+        return viewModelScope.launch(Dispatchers.IO) {
+            while (isActive) {
+                delay(5000L)
+                currentCurrency?.let { selectedCurrency(it) }
+            }
+        }
     }
 }
 
