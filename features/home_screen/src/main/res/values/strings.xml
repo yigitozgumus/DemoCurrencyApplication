@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Created by yigitozgumus on 4/2/22, 12:07 PM
+  ~ Copyright (c) 2022 . All rights reserved.
+  ~ Last modified 4/2/22, 12:07 PM
+  -->
+
+<resources>
+    <string name="home_screen_toolbar_title">Home Fragment</string>
+    <string name="home_screen_currency_select_prompt_label">Selected Currency</string>
+</resources>
