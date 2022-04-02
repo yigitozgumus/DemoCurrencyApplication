@@ -9,6 +9,7 @@ package com.yigitozgumus.home_screen.presentation.coin
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.yigitozgumus.home_screen.databinding.LayoutCryptoCurrencyListItemBinding
 
 class CryptoCurrencyListViewHolder(
@@ -21,5 +22,7 @@ class CryptoCurrencyListViewHolder(
 ) : RecyclerView.ViewHolder(binding.root) {
     fun bind(model: CryptoCurrencyListUiModel) {
         binding.coinName.text = model.name
+        binding.coinImage.load(model.imageUrl)
+        binding.currentPriceAmount.text = "${model.currentPrice} ${model.currentCurrency.uppercase()}"
     }
 }

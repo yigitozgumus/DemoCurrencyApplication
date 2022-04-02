@@ -21,8 +21,11 @@ class HomeViewModel @Inject constructor(
     private val homeScreenRepository: HomeScreenRepository
 ) : BaseViewModel() {
 
+    private var currentCurrency: String? = null
+
     private val _currencyList = MutableSharedFlow<List<CurrencyModel>>()
     val currencies = _currencyList.asSharedFlow()
+    
     val selectedCurrency: (CurrencyModel) -> Unit
     val currentCoinState: StateFlow<List<CryptoCurrencyListUiModel>>
 
@@ -34,13 +37,14 @@ class HomeViewModel @Inject constructor(
 
         val nextSelectedCurrency = MutableSharedFlow<String>()
         selectedCurrency = { selectedCurrency ->
+            currentCurrency = selectedCurrency.id
             viewModelScope.launch {
                 nextSelectedCurrency.emit(selectedCurrency.id)
             }
         }
         currentCoinState = nextSelectedCurrency.map {
             val coinList = homeScreenRepository.getCryptoCurrencyList(it)
-            coinList.map { CryptoCurrencyListUiModel(it) }
+            coinList.map { CryptoCurrencyListUiModel(it, currentCurrency.toString()) }
         }.stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000),

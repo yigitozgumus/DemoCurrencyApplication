@@ -12,12 +12,14 @@ data class CryptoCurrencyModel(
     val id: String,
     val symbol: String,
     val name: String,
-    val coinImage: String
+    val coinImage: String,
+    val currentPrice: Double
 ) {
     constructor(response: Coin) : this(
         id = response.id.orEmpty(),
         name = response.name.orEmpty(),
         symbol = response.symbol.orEmpty(),
-        coinImage = response.image.orEmpty()
+        coinImage = response.image.orEmpty(),
+        currentPrice = response.currentPrice ?: 0.0
     )
 }

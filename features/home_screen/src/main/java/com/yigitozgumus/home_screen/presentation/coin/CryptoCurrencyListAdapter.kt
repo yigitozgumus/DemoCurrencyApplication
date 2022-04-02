@@ -15,14 +15,14 @@ class CryptoCurrencyListAdapter :
 
     class CryptoCurrencyItemCallback : DiffUtil.ItemCallback<CryptoCurrencyListUiModel>() {
         override fun areItemsTheSame(oldItem: CryptoCurrencyListUiModel, newItem: CryptoCurrencyListUiModel): Boolean {
-            return oldItem == newItem
+            return oldItem.name == newItem.name
         }
 
         override fun areContentsTheSame(
             oldItem: CryptoCurrencyListUiModel,
             newItem: CryptoCurrencyListUiModel
         ): Boolean {
-            return oldItem == newItem
+            return oldItem.currentCurrency == newItem.currentCurrency && oldItem.currentPrice == newItem.currentPrice
         }
 
     }

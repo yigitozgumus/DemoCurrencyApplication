@@ -15,6 +15,7 @@ buildscript {
             "runtime_ktx"  : "2.4.1",
             "livedata_ktx" : "2.4.1",
             "viewmodel_ktx": "2.4.1",
+            "coil"         : "2.0.0-rc02",
     ]
 }
 

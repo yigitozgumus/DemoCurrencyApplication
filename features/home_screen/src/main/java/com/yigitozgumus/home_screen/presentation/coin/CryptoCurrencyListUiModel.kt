@@ -9,9 +9,15 @@ package com.yigitozgumus.home_screen.presentation.coin
 import com.yigitozgumus.home_screen.domain.model.CryptoCurrencyModel
 
 data class CryptoCurrencyListUiModel(
-    val name: String
+    val name: String,
+    val imageUrl: String,
+    val currentPrice: Double,
+    val currentCurrency: String,
 ) {
-    constructor(model: CryptoCurrencyModel) : this(
-        name = model.name
+    constructor(model: CryptoCurrencyModel, currentCurrency: String) : this(
+        name = model.name,
+        imageUrl = model.coinImage,
+        currentPrice = model.currentPrice,
+        currentCurrency = currentCurrency
     )
 }
