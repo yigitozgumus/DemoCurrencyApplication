@@ -17,10 +17,9 @@ import coil.load
 import com.yigitozgumus.home_screen.R
 import com.yigitozgumus.home_screen.databinding.LayoutCryptoCurrencyListItemBinding
 import com.yigitozgumus.home_screen.databinding.LayoutHomeScreenErrorBinding
+import com.yigitozgumus.home_screen.domain.navigation.CoinInteractionOwner
 
-abstract class CryptoCurrencyListViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-    abstract fun bind(model: CryptoCurrencyListUiModel)
-}
+sealed class CryptoCurrencyListViewHolder(view: View) : RecyclerView.ViewHolder(view)
 
 class CryptoCurrencyListContentViewHolder(
     parent: ViewGroup,
@@ -31,12 +30,11 @@ class CryptoCurrencyListContentViewHolder(
     )
 ) : CryptoCurrencyListViewHolder(binding.root) {
 
-    override fun bind(model: CryptoCurrencyListUiModel) {
-        with(model as CryptoCurrencyListContentUiModel) {
-            binding.coinName.text = model.name
-            binding.coinImage.load(model.imageUrl)
-            binding.currentPriceAmount.text = "${model.currentPrice} ${model.currentCurrency.uppercase()}"
-        }
+    fun bind(model: CryptoCurrencyListContentUiModel, coinInteractionOwner: CoinInteractionOwner) {
+        binding.coinName.text = model.name
+        binding.coinImage.load(model.imageUrl)
+        binding.currentPriceAmount.text = "${model.currentPrice} ${model.currentCurrency.uppercase()}"
+        itemView.setOnClickListener { coinInteractionOwner.goToDetailScreen(model.name) }
     }
 }
 
@@ -48,13 +46,13 @@ class CryptoCurrencyListErrorViewHolder(
         false
     )
 ) : CryptoCurrencyListViewHolder(binding.root) {
-    override fun bind(model: CryptoCurrencyListUiModel) {
-        with(model as CryptoCurrencyListErrorUiModel) {
-            binding.errorTitle.text = SpannableStringBuilder()
-                .color(ContextCompat.getColor(parent.context, R.color.black)) { append(model.currencyName) }
-                .append(" ")
-                .append(parent.context.getString(model.errorMessage))
-        }
+
+    fun bind(model: CryptoCurrencyListErrorUiModel) {
+        binding.errorTitle.text = SpannableStringBuilder()
+            .color(ContextCompat.getColor(parent.context, R.color.black)) { append(model.currencyName) }
+            .append(" ")
+            .append(parent.context.getString(model.errorMessage))
+
     }
 
 }

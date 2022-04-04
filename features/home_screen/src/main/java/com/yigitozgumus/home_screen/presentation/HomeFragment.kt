@@ -14,16 +14,21 @@ import com.yigitozgumus.base_feature.content.BindingInflater
 import com.yigitozgumus.home_screen.R
 import com.yigitozgumus.home_screen.databinding.FragmentHomeBinding
 import com.yigitozgumus.home_screen.domain.model.CurrencyModel
+import com.yigitozgumus.home_screen.domain.navigation.CoinInteractionOwner
 import com.yigitozgumus.home_screen.presentation.coin.CryptoCurrencyListAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment(), CurrencySelectionOwner {
 
     override val viewModel: HomeViewModel by viewModels()
 
-    private val coinListAdapter by lazy { CryptoCurrencyListAdapter() }
+    @Inject
+    lateinit var coinInteractionOwner: CoinInteractionOwner
+
+    private val coinListAdapter by lazy { CryptoCurrencyListAdapter(coinInteractionOwner) }
 
     private var localCurrencyList: List<CurrencyModel> = listOf()
 

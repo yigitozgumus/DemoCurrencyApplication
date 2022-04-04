@@ -9,8 +9,11 @@ package com.yigitozgumus.home_screen.presentation.coin
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
+import com.yigitozgumus.home_screen.domain.navigation.CoinInteractionOwner
 
-class CryptoCurrencyListAdapter :
+class CryptoCurrencyListAdapter(
+    private val coinInteractionOwner: CoinInteractionOwner
+) :
     ListAdapter<CryptoCurrencyListUiModel, CryptoCurrencyListViewHolder>(CryptoCurrencyItemCallback()) {
 
     class CryptoCurrencyItemCallback : DiffUtil.ItemCallback<CryptoCurrencyListUiModel>() {
@@ -35,7 +38,13 @@ class CryptoCurrencyListAdapter :
     }
 
     override fun onBindViewHolder(holder: CryptoCurrencyListViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        when (holder) {
+            is CryptoCurrencyListContentViewHolder -> holder.bind(
+                getItem(position) as
+                        CryptoCurrencyListContentUiModel, coinInteractionOwner
+            )
+            is CryptoCurrencyListErrorViewHolder -> holder.bind(getItem(position) as CryptoCurrencyListErrorUiModel)
+        }
     }
 
     override fun getItemViewType(position: Int): Int {

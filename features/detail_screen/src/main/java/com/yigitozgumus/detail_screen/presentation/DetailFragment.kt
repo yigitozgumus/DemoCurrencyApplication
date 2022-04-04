@@ -15,7 +15,9 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class DetailFragment : BaseFragment() {
 
-    override val bindingInflater = BindingInflater(FragmentDetailBinding::inflate)
+    override val bindingInflater = BindingInflater(FragmentDetailBinding::inflate) {
+        
+    }
 
     override val viewModel: DetailViewModel by viewModels()
 

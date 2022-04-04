@@ -8,15 +8,13 @@ package com.yigitozgumus.democurrencyapplication
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import com.yigitozgumus.democurrencyapplication.databinding.ActivityFragmentContainerBinding
-import com.yigitozgumus.democurrencyapplication.navigation.NavigatorDelegate
 import com.yigitozgumus.home_screen.presentation.HomeFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity(), NavigatorDelegate {
+class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityFragmentContainerBinding
 
@@ -43,11 +41,4 @@ class MainActivity : AppCompatActivity(), NavigatorDelegate {
         }
     }
 
-    override fun navigateTo(fragment: Fragment) {
-        supportFragmentManager.commit {
-            replace(R.id.fragment_container, fragment)
-            addToBackStack(null)
-            setReorderingAllowed(true)
-        }
-    }
 }
