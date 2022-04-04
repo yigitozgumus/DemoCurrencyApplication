@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Created by yigitozgumus on 4/4/22, 10:19 PM
+  ~ Copyright (c) 2022 . All rights reserved.
+  ~ Last modified 4/4/22, 10:19 PM
+  -->
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+</androidx.constraintlayout.widget.ConstraintLayout>
