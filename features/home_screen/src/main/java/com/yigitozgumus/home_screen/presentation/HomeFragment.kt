@@ -16,7 +16,6 @@ import com.yigitozgumus.home_screen.databinding.FragmentHomeBinding
 import com.yigitozgumus.home_screen.domain.model.CurrencyModel
 import com.yigitozgumus.home_screen.presentation.coin.CryptoCurrencyListAdapter
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -36,7 +35,14 @@ class HomeFragment : BaseFragment(), CurrencySelectionOwner {
     private fun FragmentHomeBinding.initCoinListArea() {
         homeScreenCurrencyListRecyclerview.adapter = coinListAdapter
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            viewModel.currentCoinState.collect { coinListAdapter.submitList(it) }
+            viewModel.currentCoinState.collect {
+                when (it) {
+                    is ScreenUiState.Content -> coinListAdapter.submitList(it.data)
+                    is ScreenUiState.Error -> {
+                        coinListAdapter.submitList(listOf(it.errorModel))
+                    }
+                }
+            }
         }
     }
 

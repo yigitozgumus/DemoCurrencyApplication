@@ -8,8 +8,11 @@ package com.yigitozgumus.home_screen.presentation
 
 import androidx.lifecycle.viewModelScope
 import com.yigitozgumus.base_feature.base.BaseViewModel
+import com.yigitozgumus.home_screen.R
 import com.yigitozgumus.home_screen.domain.model.CurrencyModel
 import com.yigitozgumus.home_screen.domain.repositories.HomeScreenRepository
+import com.yigitozgumus.home_screen.presentation.coin.CryptoCurrencyListContentUiModel
+import com.yigitozgumus.home_screen.presentation.coin.CryptoCurrencyListErrorUiModel
 import com.yigitozgumus.home_screen.presentation.coin.CryptoCurrencyListUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
@@ -27,7 +30,7 @@ class HomeViewModel @Inject constructor(
     val currencies = _currencyList.asSharedFlow()
 
     val selectedCurrency: (CurrencyModel) -> Unit
-    val currentCoinState: StateFlow<List<CryptoCurrencyListUiModel>>
+    val currentCoinState: StateFlow<ScreenUiState>
 
     private var updateUiJob: Job? = null
 
@@ -47,12 +50,26 @@ class HomeViewModel @Inject constructor(
             }
         }
         currentCoinState = nextSelectedCurrency.map {
-            val coinList = homeScreenRepository.getCryptoCurrencyList(it)
-            coinList.map { CryptoCurrencyListUiModel(it, currentCurrency?.id.toString()) }
+            try {
+                val coinList = homeScreenRepository.getCryptoCurrencyList(it)
+                ScreenUiState.Content(coinList.map {
+                    CryptoCurrencyListContentUiModel(
+                        it,
+                        currentCurrency?.id.toString()
+                    )
+                })
+            } catch (e: Exception) {
+                ScreenUiState.Error(
+                    CryptoCurrencyListErrorUiModel(
+                        currentCurrency?.name.toString(),
+                        R.string.coin_screen_error_title
+                    )
+                )
+            }
         }.stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000),
-            initialValue = listOf()
+            initialValue = ScreenUiState.Content(listOf())
         )
     }
 
@@ -64,5 +81,10 @@ class HomeViewModel @Inject constructor(
             }
         }
     }
+}
+
+sealed class ScreenUiState {
+    data class Content(val data: List<CryptoCurrencyListUiModel>) : ScreenUiState()
+    data class Error(val errorModel: CryptoCurrencyListErrorUiModel) : ScreenUiState()
 }
 
