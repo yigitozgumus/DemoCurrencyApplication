@@ -48,6 +48,8 @@ dependencies {
 
     implementation project(path: ':network:core')
     implementation project(":core:base_feature")
+    implementation project(":core:domain")
+    implementation project(":common:ui")
 
     // Features
     implementation project(":features:home_screen")

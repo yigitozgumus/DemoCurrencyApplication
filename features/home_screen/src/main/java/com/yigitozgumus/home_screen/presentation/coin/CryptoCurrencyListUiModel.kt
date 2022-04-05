@@ -21,11 +21,20 @@ data class CryptoCurrencyListContentUiModel(
     val imageUrl: String,
     val currentPrice: Double,
     val currentCurrency: String,
+    val symbol: String,
+    val highestPrice: Double,
+    val lowestPrice: Double,
+    val lastUpdatedTime: String,
 ) : CryptoCurrencyListUiModel() {
+
     constructor(model: CryptoCurrencyModel, currentCurrency: String) : this(
         name = model.name,
         imageUrl = model.coinImage,
         currentPrice = model.currentPrice,
-        currentCurrency = currentCurrency
+        currentCurrency = currentCurrency,
+        symbol = model.symbol,
+        highestPrice = model.highestPrice,
+        lowestPrice = model.lowestPrice,
+        lastUpdatedTime = model.lastUpdateTime
     )
 }

@@ -18,3 +18,5 @@ include ':network:api', ":network:core"
 include ':core:base_feature'
 include ':features:home_screen'
 include ':features:detail_screen'
+include ':core:domain'
+include ':common:ui'

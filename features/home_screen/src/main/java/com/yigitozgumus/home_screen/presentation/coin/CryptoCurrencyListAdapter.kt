@@ -40,8 +40,8 @@ class CryptoCurrencyListAdapter(
     override fun onBindViewHolder(holder: CryptoCurrencyListViewHolder, position: Int) {
         when (holder) {
             is CryptoCurrencyListContentViewHolder -> holder.bind(
-                getItem(position) as
-                        CryptoCurrencyListContentUiModel, coinInteractionOwner
+                getItem(position) as CryptoCurrencyListContentUiModel,
+                coinInteractionOwner
             )
             is CryptoCurrencyListErrorViewHolder -> holder.bind(getItem(position) as CryptoCurrencyListErrorUiModel)
         }

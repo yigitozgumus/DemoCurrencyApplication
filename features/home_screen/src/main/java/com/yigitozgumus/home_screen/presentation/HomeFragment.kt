@@ -37,6 +37,11 @@ class HomeFragment : BaseFragment(), CurrencySelectionOwner {
         initCoinListArea()
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.initCurrencyFetch()
+    }
+
     private fun FragmentHomeBinding.initCoinListArea() {
         homeScreenCurrencyListRecyclerview.adapter = coinListAdapter
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
@@ -53,7 +58,7 @@ class HomeFragment : BaseFragment(), CurrencySelectionOwner {
 
     private fun FragmentHomeBinding.initCurrencySelectorArea() {
         homeScreenCurrencySelector.onItemSelectedListener = this@HomeFragment
-        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+        viewLifecycleOwner.lifecycleScope.launchWhenResumed {
             viewModel.currencies.collect { currencyTypeList ->
                 localCurrencyList = currencyTypeList
                 homeScreenCurrencySelector.adapter = ArrayAdapter<Any?>(

@@ -44,8 +44,13 @@ android {
 dependencies {
 
     implementation project(":core:base_feature")
+    implementation project(":core:domain")
+
+    implementation project(":common:ui")
+
     implementation project(":network:api")
     implementation project(":network:core")
+
 
     // DI
     implementation "com.google.dagger:hilt-android:$versions.hilt"

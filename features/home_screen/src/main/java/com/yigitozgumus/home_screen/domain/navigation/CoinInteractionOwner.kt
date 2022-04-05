@@ -6,6 +6,8 @@
 
 package com.yigitozgumus.home_screen.domain.navigation
 
+import com.yigitozgumus.domain.navigation.DetailNavigationInfoUiModel
+
 interface CoinInteractionOwner {
-    fun goToDetailScreen(coinName: String)
+    fun goToDetailScreen(uiModel: DetailNavigationInfoUiModel)
 }

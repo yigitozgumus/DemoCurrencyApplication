@@ -34,11 +34,15 @@ class HomeViewModel @Inject constructor(
 
     private var updateUiJob: Job? = null
 
-    init {
+    fun initCurrencyFetch() {
         viewModelScope.launch {
             val currencyTypeList = homeScreenRepository.getCurrencyTypes()
             _currencyList.emit(currencyTypeList)
         }
+    }
+
+    init {
+
 
         val nextSelectedCurrency = MutableSharedFlow<String>()
         selectedCurrency = { selectedCurrency ->

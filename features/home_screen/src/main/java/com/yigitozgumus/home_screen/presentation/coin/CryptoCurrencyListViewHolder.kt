@@ -14,9 +14,9 @@ import androidx.core.content.ContextCompat
 import androidx.core.text.color
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import com.yigitozgumus.home_screen.R
 import com.yigitozgumus.home_screen.databinding.LayoutCryptoCurrencyListItemBinding
 import com.yigitozgumus.home_screen.databinding.LayoutHomeScreenErrorBinding
+import com.yigitozgumus.home_screen.domain.mapper.CurrencyDetailScreenMapper
 import com.yigitozgumus.home_screen.domain.navigation.CoinInteractionOwner
 
 sealed class CryptoCurrencyListViewHolder(view: View) : RecyclerView.ViewHolder(view)
@@ -34,7 +34,9 @@ class CryptoCurrencyListContentViewHolder(
         binding.coinName.text = model.name
         binding.coinImage.load(model.imageUrl)
         binding.currentPriceAmount.text = "${model.currentPrice} ${model.currentCurrency.uppercase()}"
-        itemView.setOnClickListener { coinInteractionOwner.goToDetailScreen(model.name) }
+        itemView.setOnClickListener {
+            coinInteractionOwner.goToDetailScreen(CurrencyDetailScreenMapper().mapToDetailUiModel(model))
+        }
     }
 }
 
@@ -49,7 +51,12 @@ class CryptoCurrencyListErrorViewHolder(
 
     fun bind(model: CryptoCurrencyListErrorUiModel) {
         binding.errorTitle.text = SpannableStringBuilder()
-            .color(ContextCompat.getColor(parent.context, R.color.black)) { append(model.currencyName) }
+            .color(
+                ContextCompat.getColor(
+                    parent.context,
+                    com.yigitozgumus.ui.R.color.black
+                )
+            ) { append(model.currencyName) }
             .append(" ")
             .append(parent.context.getString(model.errorMessage))
 
