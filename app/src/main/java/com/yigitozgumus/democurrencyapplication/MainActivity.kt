@@ -32,13 +32,5 @@ class MainActivity : AppCompatActivity() {
         onBackPressed()
         return true
     }
-
-    override fun onBackPressed() {
-        if (supportFragmentManager.backStackEntryCount == 0) {
-            super.onBackPressed()
-        } else {
-            supportFragmentManager.popBackStack()
-        }
-    }
-
+    
 }

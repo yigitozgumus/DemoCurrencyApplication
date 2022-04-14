@@ -24,7 +24,10 @@ abstract class BaseFragment : Fragment() {
         super.onCreate(savedInstanceState)
         val callback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                activity?.onBackPressed()
+                if (isEnabled) {
+                    isEnabled = false
+                    requireActivity().onBackPressed()
+                }
             }
         }
         requireActivity().onBackPressedDispatcher.addCallback(this, callback)
